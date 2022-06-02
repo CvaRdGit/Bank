@@ -1,0 +1,56 @@
+instance 1 - Jenkins
+
+1  yum install -y java-1.8.0-openjdk-devel.x86_64
+2  yum install -y git
+3  sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+4  sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+5  sudo amazon-linux-extras install epel -y
+6  yum install jenkins -y
+7  service jenkins start
+8  cat /var/lib/jenkins/secrets/initialAdminPassword
+
+
+Jenkins dashboard
+
+create node
+ >>remote root directory (/home/ec2-user/foldername of choice)
+ >> labels (node identifier)
+ >> host (Node instance privateIP)
+ >> credentials
+ >> kind (ssh)
+ >> user name (ec2-user)
+ >> private key (copy private key) 
+
+       Instance 2 - Tomcat & Maven
+
+  1  yum install -y java-1.8.0-openjdk-devel.x86_64
+  2  yum install -y git
+  3 install tomcat
+online ==>> tomcat link copy ==>>> sudo wget tomcat link
+tar.gz ==>> unzip ===>>> tar -xvf tar.gz
+cd apache-9.0.63===>> webapps ( war file copy) ==>> tomcat service start ( under bin direcory)
+vi webapps/manager/META-INF/context
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<user username="tomcat" password="tomcat" roles="manager-gui,manager-script"/>
+
+4 install maven
+	sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+	sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+	sudo yum install -y apache-maven
+
+
+Jenkins dashboard
+
+create job
+>> general ( restrict where this project can run)
+>> label (node identifier)
+>> SCM (Git) (repository URL - https://github.com/CvaRdGit/myweb.git) (credentials required only for private repository)
+>> build (select invoke top-level maven targets)(clean package)
+>> post build actions (deploy container - target/*.war)
+>> context path (SCM folder name from the repository eg.myweb)
+>> add container (tomcat 9.x)
+>> add credentials (tomcat credentials)
+>> tomcat url (eg.tomcat instance publicIP:8080)
+>> build
+
