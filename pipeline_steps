@@ -1,0 +1,4 @@
+Jenkins >>install ssh agent plugin >> new project >> pipeline >> github >> project folder >> jenkins-decnew >> copy script
+
+script changes >> for git url (pipeline syntax >> step git >> pipeline syntax >> step (ssh agaent) >>add credentials (privatekey) >> copy script to pipeline @ tomcat >> change @IP address with tomcat instance public IP address >> change tomcat version >> build 
+
