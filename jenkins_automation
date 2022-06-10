@@ -53,5 +53,5 @@ create job
 >> add credentials (tomcat credentials)
 >> tomcat url (eg.tomcat instance publicIP:8080)
 >> build
-
+>> local testing
 
